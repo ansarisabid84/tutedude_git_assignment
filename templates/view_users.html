@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block head %}
+  <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+  <h3>Users</h3>
+  <table id="users" class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Email</th><th>Password</th><th>Address</th><th>Address 2</th>
+        <th>City</th><th>State</th><th>Zip</th><th>Checked</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for u in rows %}
+      <tr>
+        <td>{{ u.email }}</td>
+        <td>{{ u.password }}</td>
+        <td>{{ u.address1 }}</td>
+        <td>{{ u.address2 }}</td>
+        <td>{{ u.city }}</td>
+        <td>{{ u.state }}</td>
+        <td>{{ u.zip }}</td>
+        <td>{{ 'Yes' if u.checked else 'No' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+{% block scripts %}
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+  <script>$(function(){ $("#users").DataTable(); });</script>
+{% endblock %}

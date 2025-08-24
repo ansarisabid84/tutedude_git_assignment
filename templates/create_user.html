@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+  <h3>Create User</h3>
+  {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+
+  <form method="post" class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label">Email</label>
+      <input name="email" type="email" class="form-control" value="{{ old.get('email','') }}">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Password</label>
+      <input name="password" type="password" class="form-control">
+    </div>
+    <div class="col-12">
+      <label class="form-label">Address</label>
+      <input name="address1" class="form-control" placeholder="1234 Main St" value="{{ old.get('address1','') }}">
+    </div>
+    <div class="col-12">
+      <label class="form-label">Address 2</label>
+      <input name="address2" class="form-control" placeholder="Apartment, studio, or floor" value="{{ old.get('address2','') }}">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">City</label>
+      <input name="city" class="form-control" value="{{ old.get('city','') }}">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">State</label>
+      <select name="state" class="form-select">
+        <option value="">Choose...</option>
+        {% for s in ['AP','KA','TS','TN','MH','DL'] %}
+          <option {{ 'selected' if old.get('state')==s else '' }}>{{ s }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Zip</label>
+      <input name="zip" class="form-control" value="{{ old.get('zip','') }}">
+    </div>
+    <div class="col-12">
+      <div class="form-check">
+        <input name="check" class="form-check-input" type="checkbox" id="check" {{ 'checked' if old.get('check') else '' }}>
+        <label class="form-check-label" for="check">Check me out</label>
+      </div>
+    </div>
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+  </form>
+{% endblock %}
