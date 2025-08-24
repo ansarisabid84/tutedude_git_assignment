@@ -100,5 +100,10 @@ def todo_page():
     # form page
     return render_template("todo.html", error=None, old={})
 
+@app.route("/todos", methods=["GET"])
+def list_todos():
+    items = list(todos_col.find({}, {"_id": 0}))
+    return render_template("todos.html", items=items)
+
 if __name__ == "__main__":
     app.run(debug=True)
