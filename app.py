@@ -13,6 +13,7 @@ MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
 client = MongoClient(MONGO_URI)
 db = client["flask_demo"]
 users_col = db["users"]
+todos_col = db["todos"]
 
 # ---------- 1) API route that reads from a backend file ----------
 @app.route("/api/users")
@@ -76,6 +77,12 @@ def view_users():
     # fetch all users (hide _id so Jinja can print easily)
     rows = list(users_col.find({}, {"_id": 0}))
     return render_template("view_users.html", rows=rows)
+
+## ToDo code start here
+@app.route("/todo", methods=["GET"])
+def todo_page():
+    # form page
+    return render_template("todo.html", error=None, old={})
 
 if __name__ == "__main__":
     app.run(debug=True)
