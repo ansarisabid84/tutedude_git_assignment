@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Create To-Do Item</h3>
+{% if error %}<div class="alert alert-danger">{{ error }}</div>{% endif %}
+
+<form method="post" class="row g-3">
+  <div class="col-12">
+    <label class="form-label">Item Name</label>
+    <input name="itemName" class="form-control" value="{{ old.get('itemName','') }}" required>
+  </div>
+  <div class="col-12">
+    <label class="form-label">Item Description</label>
+    <textarea name="itemDescription" class="form-control" rows="3">{{ old.get('itemDescription','') }}</textarea>
+  </div>
+  <div class="col-12">
+    <button class="btn btn-primary" type="submit">Save</button>
+    <a class="btn btn-secondary ms-2" href="{{ url_for('list_todos') }}">View All</a>
+  </div>
+</form>
+{% endblock %}
