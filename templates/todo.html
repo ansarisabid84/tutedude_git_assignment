@@ -3,7 +3,7 @@
 <h3>Create To-Do Item</h3>
 {% if error %}<div class="alert alert-danger">{{ error }}</div>{% endif %}
 
-<form method="post" class="row g-3">
+<form method="post" action="{{ url_for('submit_todo_item') }}" class="row g-3">
   <div class="col-12">
     <label class="form-label">Item Name</label>
     <input name="itemName" class="form-control" value="{{ old.get('itemName','') }}" required>
