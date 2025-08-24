@@ -78,11 +78,32 @@ def view_users():
     rows = list(users_col.find({}, {"_id": 0}))
     return render_template("view_users.html", rows=rows)
 
+@app.route("/submittodoitem", methods=["POST"])
+def submit_todo_item():
+    item_name = request.form.get("itemName", "").strip()
+    item_desc = request.form.get("itemDescription", "").strip()
+
+    if not item_name:
+        return render_template("todo.html", error="Item Name is required", old={"itemName": item_name, "itemDescription": item_desc}), 400
+    try:
+        todos_col.insert_one({
+            "itemName": item_name,
+            "itemDescription": item_desc
+        })
+        return redirect(url_for("list_todos"))
+    except Exception as e:
+        return render_template("todo.html", error=f"Failed to save: {e}", old={"itemName": item_name, "itemDescription": item_desc}), 500
+
 ## ToDo code start here
 @app.route("/todo", methods=["GET"])
 def todo_page():
     # form page
     return render_template("todo.html", error=None, old={})
+
+@app.route("/todos", methods=["GET"])
+def list_todos():
+    items = list(todos_col.find({}, {"_id": 0}))
+    return render_template("todos.html", items=items)
 
 if __name__ == "__main__":
     app.run(debug=True)
