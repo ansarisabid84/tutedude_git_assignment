@@ -13,6 +13,7 @@ MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
 client = MongoClient(MONGO_URI)
 db = client["flask_demo"]
 users_col = db["users"]
+todos_col = db["todos"]
 
 # ---------- 1) API route that reads from a backend file ----------
 @app.route("/api/users")
@@ -76,6 +77,23 @@ def view_users():
     # fetch all users (hide _id so Jinja can print easily)
     rows = list(users_col.find({}, {"_id": 0}))
     return render_template("view_users.html", rows=rows)
+
+
+@app.route("/submittodoitem", methods=["POST"])
+def submit_todo_item():
+    item_name = request.form.get("itemName", "").strip()
+    item_desc = request.form.get("itemDescription", "").strip()
+
+    if not item_name:
+        return render_template("todo.html", error="Item Name is required", old={"itemName": item_name, "itemDescription": item_desc}), 400
+    try:
+        todos_col.insert_one({
+            "itemName": item_name,
+            "itemDescription": item_desc
+        })
+        return redirect(url_for("list_todos"))
+    except Exception as e:
+        return render_template("todo.html", error=f"Failed to save: {e}", old={"itemName": item_name, "itemDescription": item_desc}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
