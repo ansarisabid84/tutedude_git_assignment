@@ -78,7 +78,6 @@ def view_users():
     rows = list(users_col.find({}, {"_id": 0}))
     return render_template("view_users.html", rows=rows)
 
-
 @app.route("/submittodoitem", methods=["POST"])
 def submit_todo_item():
     item_name = request.form.get("itemName", "").strip()
@@ -94,6 +93,12 @@ def submit_todo_item():
         return redirect(url_for("list_todos"))
     except Exception as e:
         return render_template("todo.html", error=f"Failed to save: {e}", old={"itemName": item_name, "itemDescription": item_desc}), 500
+
+## ToDo code start here
+@app.route("/todo", methods=["GET"])
+def todo_page():
+    # form page
+    return render_template("todo.html", error=None, old={})
 
 if __name__ == "__main__":
     app.run(debug=True)
