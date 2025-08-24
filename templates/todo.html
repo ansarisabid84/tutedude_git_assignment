@@ -10,7 +10,11 @@
   </div>
   <div class="col-12">
     <label class="form-label">Item Description</label>
-    <textarea name="itemDescription" class="form-control" rows="3">{{ old.get('itemDescription','') }}</textarea>
+    <textarea name="itemDescription" class="form-control" rows="3" required>{{ old.get('itemDescription','') }}</textarea>
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Item ID</label>
+    <input type="text" name="itemID" class="form-control" required>
   </div>
   <div class="col-12">
     <button class="btn btn-primary" type="submit">Save</button>
